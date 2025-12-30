@@ -16,7 +16,6 @@
   <style>
     :root{
       --bg:#f3f4f6;
-      --header:#0b0b0c;
       --text:#0f172a;
       --muted:#6b7280;
       --line:rgba(255,255,255,.18);
@@ -28,7 +27,6 @@
       --icon:#9ca3af;
       --divider:#e5e7eb;
       --social-blue:#0a66c2;
-      --radius:14px;
       --max:760px;
     }
 
@@ -40,7 +38,6 @@
       color: var(--text);
     }
 
-    /* FULL WIDTH HEADER */
     .hero{
       width:100%;
       background:
@@ -150,6 +147,9 @@
       margin:0;
     }
 
+    .value a{ color: inherit; text-decoration:none; }
+    .value a:hover{ text-decoration:underline; }
+
     .caption{
       font-size:12px;
       color:var(--muted);
@@ -188,13 +188,14 @@
       padding:14px;
       border:none;
       border-radius:6px;
-      background:#7a7a7a;
-      color:#fff;
+      background: var(--btn);
+      color: var(--btn-text);
       cursor:pointer;
       display:flex;
       gap:10px;
       justify-content:center;
       align-items:center;
+      box-shadow: var(--shadow);
     }
 
     .btn.secondary{
@@ -207,37 +208,31 @@
 
 <header class="hero">
   <div class="hero-inner">
-
-    <!-- ⬇️ תמונה חיצונית -->
     <div class="avatar">
-      <img src="assets/images/ronen.jpg">
+      <img id="avatarImg" src="assets/images/ronen.jpg" alt="Ronen Hoffman">
     </div>
 
-    <h1 class="name">Ambassador Ronen Hoffman, Ph.D.</h1>
-    <p class="role">President</p>
+    <h1 class="name" id="fullName">Ambassador Ronen Hoffman, Ph.D.</h1>
+    <p class="role" id="jobTitle">President</p>
 
     <div class="rule"></div>
 
-    <a class="email-cta" href="mailto:ronen.hoffman@eiscouncil.org">
+    <a class="email-cta" id="emailCta" href="mailto:ronen.hoffman@eiscouncil.org">
       <i class="fa-solid fa-paper-plane"></i>
       <span style="font-size:11px;letter-spacing:.18em;">EMAIL</span>
     </a>
-
   </div>
 </header>
 
 <div class="page">
   <div class="wrap">
-
     <section class="card">
 
       <div class="row">
         <div class="ico"><i class="fa-regular fa-envelope"></i></div>
         <div>
           <p class="value">
-            <a href="mailto:ronen.hoffman@eiscouncil.org">
-              ronen.hoffman@eiscouncil.org
-            </a>
+            <a id="emailLink" href="mailto:ronen.hoffman@eiscouncil.org">ronen.hoffman@eiscouncil.org</a>
           </p>
           <p class="caption">Email</p>
         </div>
@@ -246,8 +241,8 @@
       <div class="row">
         <div class="ico"><i class="fa-solid fa-building"></i></div>
         <div>
-          <p class="value">EIS Council</p>
-          <p class="caption">President</p>
+          <p class="value" id="orgName">EIS Council</p>
+          <p class="caption" id="orgRole">President</p>
         </div>
       </div>
 
@@ -255,32 +250,31 @@
         <div class="ico"><i class="fa-solid fa-globe"></i></div>
         <div>
           <p class="value">
-            <a href="https://www.eiscouncil.org" target="_blank">
-              www.eiscouncil.org
-            </a>
+            <a id="websiteLink" href="https://www.eiscouncil.org" target="_blank" rel="noopener">www.eiscouncil.org</a>
           </p>
           <p class="caption">Website</p>
         </div>
       </div>
 
       <div class="social">
-        <a class="linkedin" href="https://www.linkedin.com/in/ronen-hoffman-phd-0551973/" target="_blank">
+        <a class="linkedin" id="linkedinLink" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
           <i class="fa-brands fa-linkedin-in"></i>
         </a>
-        <a class="x" href="https://x.com/ronenhoffman" target="_blank">
+        <a class="x" id="xLink" href="#" target="_blank" rel="noopener" aria-label="X">
           <i class="fa-brands fa-x-twitter"></i>
         </a>
-        <a class="facebook" href="https://www.facebook.com/p/%D7%A8%D7%95%D7%A0%D7%9F-%D7%94%D7%95%D7%A4%D7%9E%D7%9F-Ronen-Hoffman-100050171963099/" target="_blank">
+        <a class="facebook" id="facebookLink" href="#" target="_blank" rel="noopener" aria-label="Facebook">
           <i class="fa-brands fa-facebook-f"></i>
         </a>
       </div>
 
       <div class="actions">
-        <button class="btn">
+        <button class="btn" id="downloadBtn" type="button">
           <i class="fa-solid fa-user-plus"></i>
           Download vCard
         </button>
-        <button class="btn secondary">
+
+        <button class="btn secondary" id="emailVcardBtn" type="button">
           <i class="fa-regular fa-paper-plane"></i>
           Send vCard by Email
         </button>
@@ -289,6 +283,160 @@
     </section>
   </div>
 </div>
+
+<script>
+  /************************************************************
+   * CONFIG
+   ************************************************************/
+  const VCARD = {
+    firstName: "Ronen",
+    lastName: "Hoffman",
+    displayName: "Ambassador Ronen Hoffman, Ph.D.",
+    title: "President",
+    organization: "EIS Council",
+    email: "ronen.hoffman@eiscouncil.org",
+    website: "https://www.eiscouncil.org",
+
+    // Social (שים כאן URL נקיים בלבד)
+    linkedinUrl: "https://www.linkedin.com/in/ronen-hoffman-phd-0551973/",
+    xUrl: "https://x.com/ronenhoffman",
+    facebookUrl: "https://www.facebook.com/p/%D7%A8%D7%95%D7%A0%D7%9F-%D7%94%D7%95%D7%A4%D7%9E%D7%9F-Ronen-Hoffman-100050171963099/",
+
+    phone: "",
+    mobile: "+972-54-469-6868",
+    workAddress: "",
+    note: ""
+  };
+
+  // אם תרצה להחליף תמונה דרך JS (אופציונלי)
+  const AVATAR_URL = document.getElementById("avatarImg")?.getAttribute("src") || "";
+
+  /************************************************************
+   * Helpers
+   ************************************************************/
+  function setSafeLink(el, url, fallback = "#") {
+    if (!el) return;
+    const ok = url && url.trim() && !url.includes("YOUR_");
+    el.href = ok ? url : fallback;
+    if (!ok) {
+      el.style.opacity = "0.55";
+      el.style.pointerEvents = "none";
+      el.title = "Replace placeholder URL in CONFIG";
+    }
+  }
+
+  function hydrateUI() {
+    document.getElementById("fullName").textContent = VCARD.displayName;
+    document.getElementById("jobTitle").textContent = VCARD.title;
+
+    const mailto = `mailto:${VCARD.email}`;
+    document.getElementById("emailCta").href = mailto;
+
+    const emailLink = document.getElementById("emailLink");
+    emailLink.href = mailto;
+    emailLink.textContent = VCARD.email;
+
+    document.getElementById("orgName").textContent = VCARD.organization;
+    document.getElementById("orgRole").textContent = VCARD.title;
+
+    const websiteLink = document.getElementById("websiteLink");
+    websiteLink.href = VCARD.website;
+    websiteLink.textContent = VCARD.website.replace(/^https?:\/\//, "");
+
+    setSafeLink(document.getElementById("linkedinLink"), VCARD.linkedinUrl);
+    setSafeLink(document.getElementById("xLink"), VCARD.xUrl);
+    setSafeLink(document.getElementById("facebookLink"), VCARD.facebookUrl);
+
+    if (AVATAR_URL) document.getElementById("avatarImg").src = AVATAR_URL;
+  }
+
+  /************************************************************
+   * vCard generation (.vcf)
+   ************************************************************/
+  function escapeVCardValue(v) {
+    if (!v) return "";
+    return String(v)
+      .replace(/\\/g, "\\\\")
+      .replace(/\n/g, "\\n")
+      .replace(/;/g, "\\;")
+      .replace(/,/g, "\\,");
+  }
+
+  function buildVCardText() {
+    const fn = escapeVCardValue(VCARD.displayName);
+    const nLast = escapeVCardValue(VCARD.lastName);
+    const nFirst = escapeVCardValue(VCARD.firstName);
+    const org = escapeVCardValue(VCARD.organization);
+    const title = escapeVCardValue(VCARD.title);
+    const email = escapeVCardValue(VCARD.email);
+    const website = escapeVCardValue(VCARD.website);
+    const phone = escapeVCardValue(VCARD.phone);
+    const mobile = escapeVCardValue(VCARD.mobile);
+    const adr = escapeVCardValue(VCARD.workAddress);
+    const note = escapeVCardValue(VCARD.note);
+
+    const lines = [
+      "BEGIN:VCARD",
+      "VERSION:3.0",
+      `N:${nLast};${nFirst};;;`,
+      `FN:${fn}`,
+      org ? `ORG:${org}` : "",
+      title ? `TITLE:${title}` : "",
+      email ? `EMAIL;TYPE=INTERNET,WORK:${email}` : "",
+      mobile ? `TEL;TYPE=CELL:${mobile}` : "",
+      phone ? `TEL;TYPE=WORK,VOICE:${phone}` : "",
+      website ? `URL:${website}` : "",
+      adr ? `ADR;TYPE=WORK:;;${adr};;;;` : "",
+      note ? `NOTE:${note}` : "",
+      (VCARD.linkedinUrl) ? `X-SOCIALPROFILE;type=linkedin:${escapeVCardValue(VCARD.linkedinUrl)}` : "",
+      (VCARD.xUrl) ? `X-SOCIALPROFILE;type=twitter:${escapeVCardValue(VCARD.xUrl)}` : "",
+      (VCARD.facebookUrl) ? `X-SOCIALPROFILE;type=facebook:${escapeVCardValue(VCARD.facebookUrl)}` : "",
+      "END:VCARD"
+    ].filter(Boolean);
+
+    return lines.join("\r\n");
+  }
+
+  function downloadVCard() {
+    const vcardText = buildVCardText();
+    const blob = new Blob([vcardText], { type: "text/vcard;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+
+    const fileNameSafe = (VCARD.displayName || "contact")
+      .replace(/[^\w\- ]+/g, "")
+      .trim()
+      .replace(/\s+/g, "_");
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${fileNameSafe || "contact"}.vcf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+
+  function sendVCardByEmail() {
+    const vcardText = buildVCardText();
+    const subject = encodeURIComponent(`vCard - ${VCARD.displayName}`);
+    const body = encodeURIComponent(
+      `Hi,\n\nAttached below is my contact card (vCard). If your email client does not support importing from text, please download the vCard from the page and attach it manually.\n\n` +
+      `-----BEGIN VCARD-----\n${vcardText}\n-----END VCARD-----\n`
+    );
+
+    const mailto = `mailto:${VCARD.email}?subject=${subject}&body=${body}`;
+    window.location.href = mailto;
+  }
+
+  /************************************************************
+   * Init
+   ************************************************************/
+  hydrateUI();
+
+  document.getElementById("downloadBtn")?.addEventListener("click", downloadVCard);
+  document.getElementById("emailVcardBtn")?.addEventListener("click", sendVCardByEmail);
+</script>
 
 </body>
 </html>
